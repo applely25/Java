@@ -1,0 +1,145 @@
+package re;
+import java.util.Scanner;
+import java.util.Random;
+
+class MyAccount{
+	Random random = new Random();
+	Scanner scan = new Scanner(System.in);
+	private String name;
+	private int money = 0;
+	private int password;
+	private int passwordcheck;
+	private int accountNumber1;
+	private int accountNumber2;
+	private int howmoney;
+	private int checkAccountNumber1;
+	private int checkAccountNumber2;
+	private int checkPassword;
+	public void personalInformation() {
+		System.out.print("Please enter your name : ");
+		this.name = scan.next();
+		while(true) {
+			this.accountNumber1 = random.nextInt(100);
+			this.accountNumber2 = random.nextInt(10000);
+			if(this.accountNumber1 <=9 || this.accountNumber2 <=999 || this.accountNumber1 >=100 || this.accountNumber2>=10000) {
+
+				continue;
+			}
+			System.out.println("Account number is "+this.accountNumber1 + "-" +  this.accountNumber2);
+			break;
+		}
+		
+		while(true){
+			System.out.print("Please enter your password(4 digits)(Unable to start with 0) : ");
+			this.password = scan.nextInt();
+			if(this.password%1 != 0  || (this.password <1000 || this.password >9999 )) {
+				System.out.println("Invalid secret code.");
+				continue;
+			}
+			while(true) {
+				System.out.print("Please enter your passwordcheck again : ");
+				this.passwordcheck = scan.nextInt();
+				if(this.password != this.passwordcheck || this.passwordcheck <1000 || this.passwordcheck >9999) {
+					continue;
+				}
+				break;
+			}
+			break;
+		}
+	}
+	
+	public int inputMoney() {
+		System.out.print("How much would you like to Deposit? :");
+		this.howmoney = scan.nextInt();
+		if(this.money<this.howmoney) {
+			System.out.println("I'm sorry, but the money is low. The rest of the money is " + this.money);
+			return 0;
+		}
+		this.money -= this.howmoney;
+		System.out.println("The remaining money is " + this.money);
+		return 0;
+	}
+	
+	public void outputMoney() {
+		System.out.print("How much would you like to Withdrawal? :");
+		this.howmoney = scan.nextInt();
+		this.money += this.howmoney;
+		System.out.println("The remaining money is " + this.money);
+	}
+	
+	public void balanceMoney() {
+		System.out.println("The remaining money is " + this.money);
+	}
+	
+	public int check() {
+		System.out.print("Enter your account (xx-xxxx) : ");
+		String n = scan.next();
+		String[] number = n.split("-");
+		this.checkAccountNumber1 = Integer.parseInt(number[0]);
+		this.checkAccountNumber2 = Integer.parseInt(number[1]);
+		if(this.checkAccountNumber1 != this.accountNumber1 || this.checkAccountNumber2 != this.accountNumber2) {
+			System.out.println("I'm sorry, but we don't have this account number.");
+			return 0;
+		}
+		System.out.print("Please enter your password : ");
+		this.checkPassword = scan.nextInt();
+		if(this.checkPassword == this.password) {
+			return 10;
+		}
+		System.out.println("The password is wrong.");
+		return 0;
+	} 
+	
+	
+}
+public class two {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int check = 0;
+		int what;
+		String name;
+		System.out.println("Create an account");
+		MyAccount p1  = new MyAccount();
+		p1.personalInformation();
+		
+		while(true) {
+			System.out.println("--------------------------------");
+			System.out.print("If you want to do it, press 0 : ");
+			check = scan.nextInt();
+			if(check != 0 ) {
+				System.out.println("Thank you for using it");
+				System.exit(0);
+			}
+			System.out.println("--------------------------------");
+			while(true) {
+				System.out.println("Please choose the number you want");
+				System.out.println("[1] Deposit of money"); // 입금
+				System.out.println("[2] Withdrawal of money"); //출금
+				System.out.println("[3] Check the the rest of the money"); //잔액 확인
+				System.out.println("[else] finish");
+				what = scan.nextInt();
+				if(what == 1) {
+					if(p1.check() == 10) {
+						p1.inputMoney();
+					}
+				}else if(what == 2) {
+					if(p1.check() == 10) {
+						p1.outputMoney();
+					}
+				}else if(what == 3) {
+					if(p1.check() == 10) {
+						p1.balanceMoney();
+					}
+				}else {
+					System.out.println("Invalid input");
+					continue;
+				}
+				break;
+			}
+			
+		}
+	}
+
+
+}
